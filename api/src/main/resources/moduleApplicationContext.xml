@@ -18,34 +18,60 @@
   		    http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
 	<!-- Add here beans related to the API context -->
-
+	<bean id="ddisemmeddbDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+         <!-- TODO: Should be dynamics -->
+         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+         <property name="username" value="root" />
+         <property name="password" value="i.wayan74" />
+         <property name="url" value="jdbc:mysql://localhost:3306/semmeddb24" />
+	</bean>
+<!-- 	<bean id="catalog" class="blog.datasource.Catalog"> -->
+<!-- 	   	<property name="dataSource" ref="dataSource"/> -->
+<!-- 	</bean> -->
+<!-- 	<bean id="dataSource" class="${project.parent.groupId}.${project.parent.artifactId}.routing.DDISemMedDBRoutingDataSource"> -->
+<!-- 	   	<property name="targetDataSources"> -->
+<!-- 	      	<map key-type="${project.parent.groupId}.${project.parent.artifactId}.routing.DbType"> -->
+<!-- 	         	<entry key="SEMMEDDB" value-ref="ddisemmeddbDataSource"/> -->
+<!-- 	      	</map> -->
+<!-- 	   	</property> -->
+<!-- 	   	<property name="defaultTargetDataSource" ref="bronzeDataSource"/> -->
+<!-- 	</bean> -->
 	
 	<!-- Services accessible via Context.getService() -->
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
 				<value>${project.parent.groupId}.${project.parent.artifactId}.api.DDISemMedDBService</value>
-				<bean
-					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
-					<property name="transactionManager">
-						<ref bean="transactionManager" />
-					</property>
-					<property name="target">
-						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.DDISemMedDBServiceImpl">
-							<property name="dao">
-								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateDDISemMedDBDAO">
-									<property name="sessionFactory">
-										<ref bean="sessionFactory" />
-									</property>
-								</bean>
-							</property>
+<!-- 				<bean -->
+<!-- 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"> -->
+<!-- 					<property name="transactionManager"> -->
+<!-- 						<ref bean="transactionManager" /> -->
+<!-- 					</property> -->
+<!-- 					<property name="target"> -->
+<!-- 						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.DDISemMedDBServiceImpl"> -->
+<!-- 							<property name="dao"> -->
+<!-- 								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateDDISemMedDBDAO"> -->
+<!-- 									<property name="sessionFactory"> -->
+<!-- 										<ref bean="sessionFactory" /> -->
+<!-- 									</property> -->
+<!-- 								</bean> -->
+<!-- 							</property> -->
+<!-- 						</bean> -->
+<!-- 					</property> -->
+<!-- 					<property name="preInterceptors"> -->
+<!-- 						<ref bean="serviceInterceptors" /> -->
+<!-- 					</property> -->
+<!-- 					<property name="transactionAttributeSource"> -->
+<!-- 						<ref bean="transactionAttributeSource" /> -->
+<!-- 					</property> -->
+<!-- 				</bean> -->
+				
+				
+				<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.DDISemMedDBServiceImpl">
+					<property name="dao">
+						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.jdbc.JdbcDDISemMedDBDAO">
+							<property name="dataSource" ref="ddisemmeddbDataSource" />
 						</bean>
-					</property>
-					<property name="preInterceptors">
-						<ref bean="serviceInterceptors" />
-					</property>
-					<property name="transactionAttributeSource">
-						<ref bean="transactionAttributeSource" />
 					</property>
 				</bean>
 			</list>

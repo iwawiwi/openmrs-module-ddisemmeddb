@@ -13,7 +13,10 @@
  */
 package org.openmrs.module.ddisemmeddb.api;
 
+import java.util.List;
+
 import org.openmrs.api.OpenmrsService;
+import org.openmrs.module.ddisemmeddb.DDISemMedDB;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,4 +36,5 @@ public interface DDISemMedDBService extends OpenmrsService {
 	 * Add service methods here
 	 * 
 	 */
+	public List<DDISemMedDB> check();
 }

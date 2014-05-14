@@ -13,11 +13,15 @@
  */
 package org.openmrs.module.ddisemmeddb.api.impl;
 
+import java.util.List;
+
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.module.ddisemmeddb.DDISemMedDB;
 import org.openmrs.module.ddisemmeddb.api.DDISemMedDBService;
 import org.openmrs.module.ddisemmeddb.api.db.DDISemMedDBDAO;
+import org.openmrs.module.ddisemmeddb.api.jdbc.JdbcDDISemMedDBDAO;
 
 /**
  * It is a default implementation of {@link DDISemMedDBService}.
@@ -26,19 +30,38 @@ public class DDISemMedDBServiceImpl extends BaseOpenmrsService implements DDISem
 	
 	protected final Log log = LogFactory.getLog(this.getClass());
 	
-	private DDISemMedDBDAO dao;
+//	private DDISemMedDBDAO dao;
+	private JdbcDDISemMedDBDAO dao;
 	
 	/**
      * @param dao the dao to set
      */
-    public void setDao(DDISemMedDBDAO dao) {
+    public void setDao(JdbcDDISemMedDBDAO dao) {
 	    this.dao = dao;
     }
     
     /**
      * @return the dao
      */
-    public DDISemMedDBDAO getDao() {
-	    return dao;
+    public JdbcDDISemMedDBDAO getDao() {
+	    return this.dao;
+    }
+	
+//	/**
+//	  * @param dao the dao to set
+//	  */
+//	 public void setDao(DDISemMedDBDAO dao) {
+//		    this.dao = dao;
+//	 }
+//	 
+//	 /**
+//	  * @return the dao
+//	  */
+//	 public DDISemMedDBDAO getDao() {
+//		    return this.dao;
+//	 }
+    
+    public List<DDISemMedDB> check() {
+    	return this.dao.check();
     }
 }

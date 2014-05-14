@@ -20,20 +20,17 @@ import org.openmrs.BaseOpenmrsMetadata;
 /**
  * It is a model class. It should extend either {@link BaseOpenmrsObject} or {@link BaseOpenmrsMetadata}.
  */
-public class DDISemMedDB extends BaseOpenmrsObject implements Serializable {
+public class DDISemMedDB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Integer id;
-	
-	@Override
-	public Integer getId() {
-		return id;
+	private String s_name;
+
+	public String getS_name() {
+		return s_name;
 	}
-	
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
+
+	public void setS_name(String s_name) {
+		this.s_name = s_name;
 	}
-	
 }
