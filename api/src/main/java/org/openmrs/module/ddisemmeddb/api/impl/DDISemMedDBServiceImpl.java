@@ -15,12 +15,11 @@ package org.openmrs.module.ddisemmeddb.api.impl;
 
 import java.util.List;
 
-import org.openmrs.api.impl.BaseOpenmrsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.impl.BaseOpenmrsService;
 import org.openmrs.module.ddisemmeddb.DDISemMedDB;
 import org.openmrs.module.ddisemmeddb.api.DDISemMedDBService;
-import org.openmrs.module.ddisemmeddb.api.db.DDISemMedDBDAO;
 import org.openmrs.module.ddisemmeddb.api.jdbc.JdbcDDISemMedDBDAO;
 
 /**
@@ -61,7 +60,7 @@ public class DDISemMedDBServiceImpl extends BaseOpenmrsService implements DDISem
 //		    return this.dao;
 //	 }
     
-    public List<DDISemMedDB> check() {
-    	return this.dao.check();
+    public List<DDISemMedDB> check(List<String> drugs) {
+    	return this.dao.check(drugs);
     }
 }

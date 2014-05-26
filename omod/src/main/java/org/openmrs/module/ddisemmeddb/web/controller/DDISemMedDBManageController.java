@@ -13,6 +13,7 @@
  */
 package org.openmrs.module.ddisemmeddb.web.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -20,71 +21,83 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.ddisemmeddb.DDISemMedDB;
 import org.openmrs.module.ddisemmeddb.api.DDISemMedDBService;
-import org.openmrs.module.ddisemmeddb.api.impl.DDISemMedDBServiceImpl;
-import org.openmrs.module.ddisemmeddb.api.jdbc.JdbcDDISemMedDBDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 /**
  * The main controller.
  * TODO: Not Secure
  */
 @Controller
+@RequestMapping("/module/ddisemmeddb")
 public class  DDISemMedDBManageController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
+	private static String messageControl = "";
+	private static List<DDISemMedDB> resultsStatic = new ArrayList<DDISemMedDB>();
 //	@Autowired
 //	private JdbcDDISemMedDBDAO ddiSemMedDBDAO;
 	
-	@RequestMapping(value = "/module/ddisemmeddb/manage", method = RequestMethod.GET)
+	@RequestMapping(value = "/manage", method = RequestMethod.GET)
 	public void manage(ModelMap model) {
 		model.addAttribute("user", Context.getAuthenticatedUser());
 	}
 	
-	@RequestMapping(value = "module/ddisemmeddb/index", method = RequestMethod.GET)
+	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public void index(ModelMap model) {
 		model.addAttribute("user", Context.getAuthenticatedUser());
 	}
 	
-	@RequestMapping(value = "module/ddisemmeddb/check", method = RequestMethod.POST)
-	public String check(@RequestParam("drug1") String drug1, @RequestParam("drug2") String drug2, ModelMap model) {
-		log.info(drug1);
-		log.info(drug2);
+	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	public String check(@RequestParam(value = "drug1", required = true) String drug1, 
+			@RequestParam(value = "drug2", required = false) String drug2,
+			@RequestParam(value = "drug3", required = false) String drug3,
+			@RequestParam(value = "drug4", required = false) String drug4,
+			@RequestParam(value = "drug5", required = false) String drug5,
+			@RequestParam(value = "drug6", required = false) String drug6,
+			ModelMap model) {
+		System.out.println("[CTR-DDI] Drug 1 = " + drug1);
+		System.out.println("[CTR-DDI] Drug 2 = " + drug2);
 		
-		try {
-			Context.openSession();
-			System.out.println("[INFO] Here in CHECK method!");
-			List<DDISemMedDB> results= (List<DDISemMedDB>) Context.getService(DDISemMedDBService.class).check();
-			log.info(results.get(0).getS_name());
-			log.info(results.size());
-			System.out.println("[INFO] Result set size "+results.size());
-			
-			// There is potential DDI found
-			if (results.size() != 0) {
-				model.addAttribute("results", results);
-//				ModelAndView mv = new ModelAndView("check");
-//				mv.addObject("flashScope.message", "Potential DDIs found! Please check results.");
-//				return mv;
-//				model.addAttribute("message", "Potential DDIs found! Please check results.");
-				System.out.println("[INFO] Will be redirected to checkResult!");
-				return "checkResult";
-			} else {
-//				ModelAndView mv = new ModelAndView("check");
-//				mv.addObject("flashScope.message", "Success! No potential DDIs found.");
-//				return mv;
-//				model.addAttribute("message", "Success! No potential DDIs found.");
-				return "redirect:index.form";
-			}
-		} finally {
-			Context.closeSession();
+		// add drugs
+		List<String> drugList = new ArrayList<String>();
+		drugList.add(drug1);
+		drugList.add(drug2);
+		drugList.add(drug3);
+		drugList.add(drug4);
+		drugList.add(drug5);
+		drugList.add(drug6);
+		
+		List<DDISemMedDB> results = new ArrayList<DDISemMedDB>();
+		System.out.println("[INFO] Here in CHECK method!");
+		results = (List<DDISemMedDB>) Context.getService(DDISemMedDBService.class).check(drugList);
+
+		log.info(results.size());
+		System.out.println("[INFO] Result set size "+results.size());
+		
+		if (results.size() != 0) {
+			model.addAttribute("results", results);
+//			ModelAndView mv = new ModelAndView("checkResult");
+//			mv.addObject("message", "Potential DDIs found! Please check results.");
+//			mv.addObject("results", results);
+//			return mv;
+//			model.addAttribute("message", "Potential DDIs found! Please check results.");
+//			System.out.println("[INFO] Will be redirected to checkResult!");
+			messageControl = "Potential DDIs found! Please check results.";
+			resultsStatic = results;
+			return "redirect:checkResult.form";
+		} else {
+//			ModelAndView mv = new ModelAndView("redirect:index.form");
+//			mv.addObject("message", "Success! No potential DDIs found.");
+//			return mv;
+//			model.addAttribute("message", "Success! No potential DDIs found.");
+			messageControl = "Success! No potential DDIs found.";
+			return "redirect:checkResult.form";
 		}
+		
 		
 //		if (StringUtils.isEmpty(drug1) && StringUtils.isEmpty(drug2)) {
 //			return "index.form";
@@ -94,15 +107,11 @@ public class  DDISemMedDBManageController {
 //		}
 	}
 	
-//	@RequestMapping(value = "module/ddisemmeddb/check", method = RequestMethod.GET)
-//	public String checkResult(ModelMap model) {
-//		try {
-//			Context.openSession();
-//			return "checkResult";
-//		} finally {
-//			Context.closeSession();
-//		}
-//	}
+	@RequestMapping(value = "/checkResult", method = RequestMethod.GET)
+	public void checkResult(ModelMap model) {
+		model.addAttribute("results", resultsStatic);
+		model.addAttribute("message", messageControl);
+	}
 	
 //	@RequestMapping(value = "module/ddisemmeddb/list", method = RequestMethod.GET)
 //	public void list() {

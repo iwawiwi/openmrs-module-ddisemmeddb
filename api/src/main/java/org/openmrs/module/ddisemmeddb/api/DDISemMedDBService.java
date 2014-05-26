@@ -36,5 +36,5 @@ public interface DDISemMedDBService extends OpenmrsService {
 	 * Add service methods here
 	 * 
 	 */
-	public List<DDISemMedDB> check();
+	public List<DDISemMedDB> check(List<String> drugs);
 }

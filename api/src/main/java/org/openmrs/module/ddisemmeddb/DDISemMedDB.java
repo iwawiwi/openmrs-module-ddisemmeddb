@@ -18,19 +18,55 @@ import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.BaseOpenmrsMetadata;
 
 /**
+ * Attribute:
+ * pagg.s_name, pagg.predicate, pagg.o_name, pagg2.predicate, pagg2.o_name, pagg.SID, pagg2.SID 
  * It is a model class. It should extend either {@link BaseOpenmrsObject} or {@link BaseOpenmrsMetadata}.
  */
 public class DDISemMedDB implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String s_name;
-
-	public String getS_name() {
-		return s_name;
+	private String drug1;
+	private String predicate1;
+	private String geneName;
+	private String predicate2;
+	private String drug2;
+	private String urlCheck;
+	
+	public String getDrug1() {
+		return drug1;
 	}
-
-	public void setS_name(String s_name) {
-		this.s_name = s_name;
+	public void setDrug1(String drug1) {
+		this.drug1 = drug1;
+	}
+	public String getPredicate1() {
+		return predicate1;
+	}
+	public void setPredicate1(String predicate1) {
+		this.predicate1 = predicate1;
+	}
+	public String getGeneName() {
+		return geneName;
+	}
+	public void setGeneName(String geneName) {
+		this.geneName = geneName;
+	}
+	public String getPredicate2() {
+		return predicate2;
+	}
+	public void setPredicate2(String predicate2) {
+		this.predicate2 = predicate2;
+	}
+	public String getDrug2() {
+		return drug2;
+	}
+	public void setDrug2(String drug2) {
+		this.drug2 = drug2;
+	}
+	public String getUrlCheck() {
+		return urlCheck;
+	}
+	public void setUrlCheck(String urlCheck) {
+		this.urlCheck = urlCheck;
 	}
 }
