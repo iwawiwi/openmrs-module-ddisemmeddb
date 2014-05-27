@@ -17,7 +17,9 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
  *
  */
 public class JdbcDDISemMedDBDAO extends JdbcDaoSupport implements DDISemMedDBDAO {
-	private static String PUBMED_BASE_URL = "http://www.ncbi.nlm.nih.gov/pubmed/";
+	private static final String PUBMED_BASE_URL = "http://www.ncbi.nlm.nih.gov/pubmed/";
+	private static final String GENE_TYPE = "('gngm', 'aapp')";
+	private static final String DRUG_TYPE = "('clnd','phsu','orch','horm')";
 	
 	public List<DDISemMedDB> check(List<String> drugs) {
 		List<DDISemMedDB> results = new ArrayList<DDISemMedDB>();
@@ -28,8 +30,8 @@ public class JdbcDDISemMedDBDAO extends JdbcDaoSupport implements DDISemMedDBDAO
 		// DGD Schema
 		String sql = "select distinct pagg.s_name as d1, pagg.predicate as p1, pagg.o_name as g, pagg2.predicate as p2, pagg2.o_name as d2 "
 				+ "from predication_aggregate pagg "
-				+ "inner join predication_aggregate pagg2 on pagg.s_type = 'phsu' and pagg2.o_type = 'phsu' "
-				+ "and pagg.o_name = pagg2.s_name and pagg.o_type in ('gngm', 'aapp') "
+				+ "inner join predication_aggregate pagg2 on pagg.s_type in " + DRUG_TYPE + " and pagg2.o_type in " + DRUG_TYPE + " "
+				+ "and pagg.o_name = pagg2.s_name and pagg.o_type in " + GENE_TYPE + " "
 				+ "and lower(pagg.s_name) in (" + drugListQuery + ") "
 				+ "and pagg.o_name = pagg2.s_name and pagg.s_name <> pagg2.o_name "
 				+ "and lower(pagg2.o_name) in (" + drugListQuery + ") "

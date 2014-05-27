@@ -39,7 +39,7 @@
 			</c:forEach>
 			</ul>
 			
-			<a href="index.form">Correct entry</a>
+			<a href="add.form?patientId=${patientId}">Correct entry</a>
 		</div>
 	</c:when>
 	<c:otherwise>

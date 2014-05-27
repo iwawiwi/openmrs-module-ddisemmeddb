@@ -16,6 +16,7 @@ package org.openmrs.module.ddisemmeddb.web.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.Patient;
@@ -65,7 +66,10 @@ public class  DDISemMedDBManageController {
 //		model.addAttribute("user", Context.getAuthenticatedUser());
 //		System.out.println("[CTR-DDI] Patient ID selected " + patientId);
 		DDISemMedDBManageController.patientId = patientId;
-		model.addAttribute("patientId", patientId);
+		PatientService patientService = (PatientService) Context.getService(PatientService.class);
+		Patient patient = patientService.getPatient(patientId);
+//		model.addAttribute("patientId", patientId);
+		model.addAttribute("patient", patient);
 	}
 	
 //	@RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -87,6 +91,11 @@ public class  DDISemMedDBManageController {
 //		System.out.println("[CTR-DDI] Drug 1 = " + drug1);
 //		System.out.println("[CTR-DDI] Drug 2 = " + drug2);
 //		System.out.println("[CTR-DDI] Patient ID " + patientId);
+		
+		if (StringUtils.isEmpty(drug1) && StringUtils.isEmpty(drug2) && StringUtils.isEmpty(drug3)
+				&& StringUtils.isEmpty(drug4) && StringUtils.isEmpty(drug5) && StringUtils.isEmpty(drug6)) {
+			return "redirect:add.form?patientId=4";
+		}
 		
 		// add drugs
 		drugList = new ArrayList<String>();

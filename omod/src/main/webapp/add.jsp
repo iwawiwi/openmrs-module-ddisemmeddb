@@ -3,6 +3,34 @@
 
 <%@ include file="template/localHeader.jsp"%>
 
+<!-- <b class="boxHeader"><spring:message code="module.patientinfo" /></b> -->
+<!-- <div class="box"> -->
+<!-- 	<table> -->
+	
+<!-- 	</table> -->
+<!-- </div> -->
+
+<div id="patientHeader" class="boxHeader">
+<div id="patientHeaderPatientName">${patient.personName}</div>
+<div id="patientHeaderPreferredIdentifier">		
+<!-- 	<span class="patientHeaderPatientIdentifier"><span id="patientHeaderPatientIdentifierType"><spring:message code="ddisemmeddb.patientId"/>: -->
+	<span class="patientHeaderPatientIdentifier"><span id="patientHeaderPatientIdentifierType">Patient ID:
+	</span>${patient.patientId}</span>
+</div>
+<table id="patientHeaderGeneralInfo">
+	<tbody>
+	<tr class="patientHeaderGeneralInfoRow">
+		<td id="patientHeaderPatientGender">
+			<img src="/openmrs/images/male.gif" alt="Pria" id="maleGenderIcon">
+		</td>
+		<td id="patientHeaderPatientAge">Age: ${patient.age} 
+			  <span id="patientHeaderPatientBirthdate">(${patient.birthdate})</span>
+		</td>
+	</tr>
+	</tbody>
+	</table>
+</div>
+<br />
 <b class="boxHeader">Input Medication List</b>
 
 <div class="box">
@@ -39,6 +67,8 @@
 		</table>
 		
 		<input type="submit" value="Check Interactions" />
+		<br />
+		<a href="index.form">Back to patient list</a>
 	</form>
 </div>
 

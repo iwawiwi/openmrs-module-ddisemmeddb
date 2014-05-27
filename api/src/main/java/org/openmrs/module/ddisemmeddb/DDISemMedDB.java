@@ -27,10 +27,13 @@ public class DDISemMedDB implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private String drug1;
+	private String drug1Type;
 	private String predicate1;
 	private String geneName;
+	private String geneNameType;
 	private String predicate2;
 	private String drug2;
+	private String drug2Type;
 	private String urlCheck;
 	
 	public String getDrug1() {
@@ -68,5 +71,23 @@ public class DDISemMedDB implements Serializable {
 	}
 	public void setUrlCheck(String urlCheck) {
 		this.urlCheck = urlCheck;
+	}
+	public String getDrug1Type() {
+		return drug1Type;
+	}
+	public void setDrug1Type(String drug1Type) {
+		this.drug1Type = drug1Type;
+	}
+	public String getGeneNameType() {
+		return geneNameType;
+	}
+	public void setGeneNameType(String geneNameType) {
+		this.geneNameType = geneNameType;
+	}
+	public String getDrug2Type() {
+		return drug2Type;
+	}
+	public void setDrug2Type(String drug2Type) {
+		this.drug2Type = drug2Type;
 	}
 }
